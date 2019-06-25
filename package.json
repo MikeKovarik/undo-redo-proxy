@@ -12,11 +12,11 @@
     "transaction",
     "proxy"
   ],
-  "homepage": "http://mutiny.cz/undo-redo-array",
-  "bugs": "https://github.com/MikeKovarik/undo-redo-array/issues",
+  "homepage": "http://mutiny.cz/undoredo",
+  "bugs": "https://github.com/MikeKovarik/undoredo/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MikeKovarik/undo-redo-array.git"
+    "url": "https://github.com/MikeKovarik/undoredo.git"
   },
   "scripts": {
     "test": "mocha test.js --require esm"
