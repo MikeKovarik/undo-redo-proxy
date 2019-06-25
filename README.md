@@ -1,23 +1,23 @@
-# undoredo
+# undo-redo-proxy
 
-[![Build Status](https://travis-ci.org/MikeKovarik/undoredo.svg)](https://travis-ci.org/MikeKovarik/undoredo)
-[![NPM Version](https://img.shields.io/npm/v/undoredo.svg?style=flat)](https://npmjs.org/package/undoredo)
-[![License](http://img.shields.io/npm/l/undoredo.svg?style=flat)](LICENSE)
-[![Dependency Status](https://david-dm.org/MikeKovarik/undoredo.svg)](https://david-dm.org/MikeKovarik/undoredo)
-[![devDependency Status](https://david-dm.org/MikeKovarik/undoredo/dev-status.svg)](https://david-dm.org/MikeKovarik/undoredo#info=devDependencies)
+[![Build Status](https://travis-ci.org/MikeKovarik/undo-redo-proxy.svg)](https://travis-ci.org/MikeKovarik/undo-redo-proxy)
+[![NPM Version](https://img.shields.io/npm/v/undo-redo-proxy.svg?style=flat)](https://npmjs.org/package/undo-redo-proxy)
+[![License](http://img.shields.io/npm/l/undo-redo-proxy.svg?style=flat)](LICENSE)
+[![Dependency Status](https://david-dm.org/MikeKovarik/undo-redo-proxy.svg)](https://david-dm.org/MikeKovarik/undo-redo-proxy)
+[![devDependency Status](https://david-dm.org/MikeKovarik/undo-redo-proxy/dev-status.svg)](https://david-dm.org/MikeKovarik/undo-redo-proxy#info=devDependencies)
 
 ⏳ Effortless timetravel - undo/redo proxy wrapper for arrays
 
 ## Installation
 
 ```
-npm install undoredo
+npm install undo-redo-proxy
 ```
 
 ## Usage
 
 ```js
-import trackHistory from 'undoredo'
+import trackHistory from 'undo-redo-proxy'
 let array = ['my', 'array']
 // wraps your array, returns proxy which behaves like a normal array
 array = trackHistory(array)
@@ -33,7 +33,7 @@ array.redo()       // ['my', 'array']
 Can be used in browser as well
 
 ```js
-import trackHistory from './node_modules/undoredo/index.mjs'
+import trackHistory from './node_modules/undo-redo-proxy/index.mjs'
 let users = trackHistory([])
 ```
 

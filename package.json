@@ -1,5 +1,5 @@
 {
-  "name": "undoredo",
+  "name": "undo-redo-proxy",
   "version": "1.0.0",
   "description": "⏳ Effortless timetravel - undo/redo proxy wrapper for arrays",
   "author": "Mike Kovarik",
@@ -12,11 +12,11 @@
     "transaction",
     "proxy"
   ],
-  "homepage": "http://mutiny.cz/undoredo",
-  "bugs": "https://github.com/MikeKovarik/undoredo/issues",
+  "homepage": "http://mutiny.cz/undo-redo-proxy",
+  "bugs": "https://github.com/MikeKovarik/undo-redo-proxy/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MikeKovarik/undoredo.git"
+    "url": "https://github.com/MikeKovarik/undo-redo-proxy.git"
   },
   "scripts": {
     "test": "mocha test.js --require esm"
