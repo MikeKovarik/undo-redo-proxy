@@ -1,0 +1,29 @@
+{
+  "name": "undoredo",
+  "version": "1.0.0",
+  "description": "⏳ Effortless timetravel. undo/redo proxy wrapper for arrays",
+  "author": "Mike Kovarik",
+  "license": "MIT",
+  "keywords": [
+    "array",
+    "history",
+    "undo",
+    "redo",
+    "transaction",
+    "proxy"
+  ],
+  "homepage": "http://mutiny.cz/undo-redo-array",
+  "bugs": "https://github.com/MikeKovarik/undo-redo-array/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MikeKovarik/undo-redo-array.git"
+  },
+  "scripts": {
+    "test": "mocha test.js --require esm"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "esm": "^3.2.25",
+    "mocha": "^6.1.4"
+  }
+}
