@@ -1,5 +1,5 @@
 import {assert} from 'chai'
-import initHistory from './index.mjs'
+import trackHistory from './index.mjs'
 
 
 describe('Array', () => {
@@ -9,25 +9,25 @@ describe('Array', () => {
 		describe('.length', () => {
 
 			it('should be 0 on empty array', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.lengthOf(array, 0)
 			})
 
 			it('should be 3 on [0,1,2]', () => {
-				let array = initHistory([0,1,2])
+				let array = trackHistory([0,1,2])
 				assert.lengthOf(array, 3)
 			})
 
 			it('should increase with items', () => {
 				let raw = [0]
-				let array = initHistory(raw)
+				let array = trackHistory(raw)
 				assert.lengthOf(array, 1)
 				raw[1] = 1
 				assert.lengthOf(array, 2)
 			})
 
 			it('array.length = 0 should remove all items', () => {
-				let array = initHistory([0,1,2])
+				let array = trackHistory([0,1,2])
 				assert.lengthOf(array, 3)
 				array.length = 0
 				assert.lengthOf(array, 0)
@@ -39,7 +39,7 @@ describe('Array', () => {
 		describe('[index] notation', () => {
 
 			it('items should reflect contents of original array', () => {
-				let array = initHistory(['hello', 'world', 42, true])
+				let array = trackHistory(['hello', 'world', 42, true])
 				assert.equal(array[0], 'hello')
 				assert.equal(array[1], 'world')
 				assert.equal(array[2], 42)
@@ -47,14 +47,14 @@ describe('Array', () => {
 			})
 
 			it('assigning item to start of empty array should work', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.equal(array[0], undefined)
 				array[0] = 'hai'
 				assert.equal(array[0], 'hai')
 			})
 
 			it('assigning item to middle of empty array should work 1', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.equal(array[2], undefined)
 				array[2] = 'three'
 				assert.equal(array[0], undefined)
@@ -63,7 +63,7 @@ describe('Array', () => {
 			})
 
 			it('assigning item to middle of empty array should work 2', () => {
-				let array = initHistory(['one'])
+				let array = trackHistory(['one'])
 				assert.equal(array[2], undefined)
 				array[2] = 'three'
 				assert.equal(array[0], 'one')
@@ -75,7 +75,7 @@ describe('Array', () => {
 			it('assigning item to middle of empty array should work 3', () => {
 				let original = new Array(5)
 				original[4] = 'five'
-				let array = initHistory(original)
+				let array = trackHistory(original)
 				assert.equal(array[2], undefined)
 				array[2] = 'three'
 				assert.equal(array[0], undefined)
@@ -85,14 +85,14 @@ describe('Array', () => {
 			})
 
 			it('replacing item should work', () => {
-				let array = initHistory([0, 1, 2, 'before'])
+				let array = trackHistory([0, 1, 2, 'before'])
 				assert.equal(array[3], 'before')
 				array[3] = 'after'
 				assert.equal(array[3], 'after')
 			})
 
 			it('delete[index] should delete the item', () => {
-				let array = initHistory(['one', 'two', 'three'])
+				let array = trackHistory(['one', 'two', 'three'])
 				assert.equal(array[1], 'two')
 				delete array[1]
 				assert.equal(array[1], undefined)
@@ -104,7 +104,7 @@ describe('Array', () => {
 		describe('.push()', () => {
 
 			it('should add new items to end', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				array.push('one')
 				array.push('two')
 				assert.equal(array[0], 'one')
@@ -112,7 +112,7 @@ describe('Array', () => {
 			})
 
 			it('should return new length', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.equal(array.push('one'), 1)
 				assert.equal(array.push('two'), 2)
 			})
@@ -122,7 +122,7 @@ describe('Array', () => {
 		describe('.unshift()', () => {
 
 			it('should add new items to start', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				array.unshift('two')
 				array.unshift('one')
 				assert.equal(array[0], 'one')
@@ -130,7 +130,7 @@ describe('Array', () => {
 			})
 
 			it('should return new length', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.equal(array.unshift('one'), 1)
 				assert.equal(array.unshift('two'), 2)
 			})
@@ -140,12 +140,12 @@ describe('Array', () => {
 		describe('.pop()', () => {
 
 			it('pop on empty array returns undefined', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.equal(array.pop(), undefined)
 			})
 
 			it('pop returns last item', () => {
-				let array = initHistory(['one', 'two'])
+				let array = trackHistory(['one', 'two'])
 				assert.equal(array.pop(), 'two')
 			})
 
@@ -154,12 +154,12 @@ describe('Array', () => {
 		describe('.shift()', () => {
 
 			it('shift on empty array returns undefined', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.equal(array.shift(), undefined)
 			})
 
 			it('shift returns first item', () => {
-				let array = initHistory(['one', 'two'])
+				let array = trackHistory(['one', 'two'])
 				assert.equal(array.shift(), 'one')
 			})
 
@@ -172,14 +172,14 @@ describe('Array', () => {
 		describe('.undo()', () => {
 
 			it('should do nothing on empty array', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.lengthOf(array, 0)
 				array.undo()
 				assert.lengthOf(array, 0)
 			})
 
 			it('should undo replaced item', () => {
-				let array = initHistory(['initial'])
+				let array = trackHistory(['initial'])
 				assert.equal(array[0], 'initial')
 				array[0] = 'replaced'
 				assert.equal(array[0], 'replaced')
@@ -188,7 +188,7 @@ describe('Array', () => {
 			})
 
 			it('should undo push', () => {
-				let array = initHistory(['one'])
+				let array = trackHistory(['one'])
 				assert.lengthOf(array, 1)
 				array.push('two')
 				assert.lengthOf(array, 2)
@@ -197,7 +197,7 @@ describe('Array', () => {
 			})
 
 			it('should undo pushes', () => {
-				let array = initHistory(['one'])
+				let array = trackHistory(['one'])
 				array.push('two')
 				array.push('three')
 				assert.lengthOf(array, 3)
@@ -209,7 +209,7 @@ describe('Array', () => {
 			})
 
 			it('should undo pop', () => {
-				let array = initHistory(['initial'])
+				let array = trackHistory(['initial'])
 				assert.lengthOf(array, 1)
 				array.pop()
 				assert.lengthOf(array, 0)
@@ -218,7 +218,7 @@ describe('Array', () => {
 			})
 
 			it('should undo multiple pops (2x)', () => {
-				let array = initHistory(['one', 'two'])
+				let array = trackHistory(['one', 'two'])
 				array.pop()
 				array.pop()
 				assert.lengthOf(array, 0)
@@ -229,7 +229,7 @@ describe('Array', () => {
 			})
 
 			it('should undo multiple pops (3x)', () => {
-				let array = initHistory(['one', 'two', 'three'])
+				let array = trackHistory(['one', 'two', 'three'])
 				array.pop()
 				array.pop()
 				array.pop()
@@ -247,14 +247,14 @@ describe('Array', () => {
 		describe('.redo()', () => {
 
 			it('should do nothing on empty array', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.lengthOf(array, 0)
 				array.redo()
 				assert.lengthOf(array, 0)
 			})
 
 			it('multiple redos should not have side effects', () => {
-				let array = initHistory(['initial'])
+				let array = trackHistory(['initial'])
 				array.unshift('new')
 				array.undo()
 				array.redo()
@@ -266,7 +266,7 @@ describe('Array', () => {
 			})
 
 			it('should redo undone replacement', () => {
-				let array = initHistory(['initial'])
+				let array = trackHistory(['initial'])
 				array[0] = 'replaced'
 				array.undo()
 				assert.equal(array[0], 'initial')
@@ -275,7 +275,7 @@ describe('Array', () => {
 			})
 
 			it('should redo undone pop', () => {
-				let array = initHistory(['initial'])
+				let array = trackHistory(['initial'])
 				assert.lengthOf(array, 1)
 				array.pop()
 				assert.lengthOf(array, 0)
@@ -286,7 +286,7 @@ describe('Array', () => {
 			})
 
 			it('unshift() cancels redo 2', () => {
-				let array = initHistory(['initial'])
+				let array = trackHistory(['initial'])
 				assert.lengthOf(array, 1)
 				array.pop()
 				assert.lengthOf(array, 0)
@@ -300,7 +300,7 @@ describe('Array', () => {
 			})
 
 			it('push() cancels redo', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				array[0] = 'should not be redone'
 				assert.lengthOf(array, 1)
 				array.undo()
@@ -312,7 +312,7 @@ describe('Array', () => {
 			})
 
 			it('[index] set cancels redo', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				array[0] = 'should not be redone'
 				assert.lengthOf(array, 1)
 				array.undo()
@@ -328,7 +328,7 @@ describe('Array', () => {
 		describe('complex tests', () => {
 
 			it('#1', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.lengthOf(array, 0)
 				array[0] = 'second'
 				assert.lengthOf(array, 1)
@@ -339,7 +339,7 @@ describe('Array', () => {
 			})
 
 			it('#2', () => {
-				let array = initHistory([])
+				let array = trackHistory([])
 				assert.lengthOf(array, 0)
 				array.splice(0, 0, 'first')
 				assert.lengthOf(array, 1)
@@ -356,7 +356,7 @@ describe('Array', () => {
 			})
 
 			it('#3', () => {
-				let array = initHistory(['one', 'two'])
+				let array = trackHistory(['one', 'two'])
 				array.push('three')
 				assert.equal(array[2], 'three')
 				array.pop()
@@ -379,7 +379,7 @@ describe('Array', () => {
 			})
 
 			it('#4', () => {
-				let array = initHistory(['one'])
+				let array = trackHistory(['one'])
 				assert.lengthOf(array, 1)
 				array.pop()
 				assert.lengthOf(array, 0)
