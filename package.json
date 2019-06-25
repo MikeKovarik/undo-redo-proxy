@@ -1,7 +1,7 @@
 {
   "name": "undoredo",
   "version": "1.0.0",
-  "description": "⏳ Effortless timetravel. undo/redo proxy wrapper for arrays",
+  "description": "⏳ Effortless timetravel - undo/redo proxy wrapper for arrays",
   "author": "Mike Kovarik",
   "license": "MIT",
   "keywords": [
