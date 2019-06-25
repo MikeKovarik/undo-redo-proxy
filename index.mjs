@@ -1,6 +1,5 @@
-const HISTORY = Symbol()
-const FUTURE = Symbol()
-const SPLICE = Symbol()
+const UNDOS = Symbol()
+const REDOS = Symbol()
 const ORIGINAL = Symbol()
 
 function define(original, key, value) {
@@ -8,48 +7,52 @@ function define(original, key, value) {
 }
 
 function undo() {
-	let history = this[HISTORY]
-	let future = this[FUTURE]
+	let undos = this[UNDOS]
+	let redos = this[REDOS]
 	let original = this[ORIGINAL]
-	let spliceInfo = history.pop()
+	let spliceInfo = undos.pop()
 	if (spliceInfo === undefined) return
-	future.unshift(spliceInfo)
+	redos.unshift(spliceInfo)
 	let {index, deleted, added} = spliceInfo
 	original.splice(index, added.length, ...deleted)
 }
 
 function redo() {
-	let history = this[HISTORY]
-	let future = this[FUTURE]
+	let undos = this[UNDOS]
+	let redos = this[REDOS]
 	let original = this[ORIGINAL]
-	let spliceInfo = future.shift()
+	let spliceInfo = redos.shift()
 	if (spliceInfo === undefined) return
-	history.push(spliceInfo)
+	undos.push(spliceInfo)
 	let {index, deleted, added} = spliceInfo
 	original.splice(index, deleted.length, ...added)
 }
 
 function splice(index, deleteCount, ...added) {
-	let history = this[HISTORY]
-	let future = this[FUTURE]
-	future.length = 0
+	let undos = this[UNDOS]
+	let redos = this[REDOS]
+	// cancel any cached redos
+	redos.length = 0
+	// do native splice on original array (to prevent endless loop of calling self).
 	let original = this[ORIGINAL]
 	let deleted = original.splice(index, deleteCount, ...added)
+	// record undo
 	let spliceInfo = {index, deleted, added}
-	history.push(spliceInfo)
+	undos.push(spliceInfo)
+	// mimic return value of native .splice()
 	return deleted
 }
 
 function push(...items) {
 	// cancel any cached redos
-	this[FUTURE].length = 0
+	this[REDOS].length = 0
 	this.splice(this.length, 0, ...items)
 	return this.length
 }
 
 function unshift(...items) {
 	// cancel any cached redos
-	this[FUTURE].length = 0
+	this[REDOS].length = 0
 	this.splice(0, 0, ...items)
 	return this.length
 }
@@ -73,9 +76,8 @@ function get(original, key) {
 		case 'pop':     return pop
 		case 'shift':   return shift
 		case 'unshift': return unshift
-		case SPLICE:    return Array.prototype.splice
-		case HISTORY:   return original[HISTORY]
-		case FUTURE:    return original[FUTURE]
+		case UNDOS:   return original[UNDOS]
+		case REDOS:    return original[REDOS]
 		case ORIGINAL:  return original
 	}
 	return original[key]
@@ -101,10 +103,10 @@ function set(original, key, value, proxy) {
 }
 
 export default function(original) {
-	var history = []
-	var future = []
-	define(original, HISTORY, history)
-	define(original, FUTURE, future)
+	var undos = []
+	var redos = []
+	define(original, UNDOS, undos)
+	define(original, REDOS, redos)
 	var proxy = new Proxy(original, {get, set})
 	return proxy
 }
